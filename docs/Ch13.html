@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>AdvancedR - Chapter 13</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">AdvancedR</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-chapters" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Chapters</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-chapters">    
+        <li>
+    <a class="dropdown-item" href="./CH2.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch3.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch4.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch5.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch6.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch7.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch8.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch13.html">
+ <span class="dropdown-text">Chapter 13</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch18.html">
+ <span class="dropdown-text">Chapter 18</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ch20.html">
+ <span class="dropdown-text">Chapter 20</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 13</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Exercises 13.2.1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sloop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><p>t.test() and t.data.frame() perform very different functions. t.test() performs a t-test on provided data while t.data.frame transposes a matrix or dataframe. According to documentation and the workings of S3, t.data.frame() will be called when a user writes t(df) where df is a data frame. The documentation makes it appear that t.test() is typically called in that wording. However using t.test() on an object of type “test”–which I’m not aware of–should call t.test() if a user runs t(test) where test is an object of type test.</p></li>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>base_funs <span class="ot">&lt;-</span> <span class="fu">lsf.str</span>(<span class="st">"package:base"</span>, <span class="at">pattern =</span> <span class="st">'.*</span><span class="sc">\\</span><span class="st">..*'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#base_funs </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Filter</span>(<span class="cf">function</span>(x) {<span class="sc">!</span> (utils<span class="sc">::</span><span class="fu">isS3method</span>(x) <span class="sc">||</span> utils<span class="sc">::</span><span class="fu">isS3stdGeneric</span>(x))}, base_funs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "all.names"                "all.vars"                
+  [3] "as.call"                  "as.character"            
+  [5] "as.complex"               "as.data.frame"           
+  [7] "as.data.frame.vector"     "as.difftime"             
+  [9] "as.double"                "as.environment"          
+ [11] "as.factor"                "as.hexmode"              
+ [13] "as.integer"               "as.logical"              
+ [15] "as.name"                  "as.numeric"              
+ [17] "as.numeric_version"       "as.octmode"              
+ [19] "as.ordered"               "as.package_version"      
+ [21] "as.pairlist"              "as.qr"                   
+ [23] "as.raw"                   "as.symbol"               
+ [25] "as.vector"                "attr.all.equal"          
+ [27] "char.expand"              "data.class"              
+ [29] "data.frame"               "data.matrix"             
+ [31] "default.stringsAsFactors" "dir.create"              
+ [33] "dir.exists"               "do.call"                 
+ [35] "dyn.load"                 "dyn.unload"              
+ [37] "env.profile"              "eval.parent"             
+ [39] "expand.grid"              "file.access"             
+ [41] "file.append"              "file.choose"             
+ [43] "file.copy"                "file.create"             
+ [45] "file.exists"              "file.info"               
+ [47] "file.link"                "file.mode"               
+ [49] "file.mtime"               "file.path"               
+ [51] "file.remove"              "file.rename"             
+ [53] "file.show"                "file.size"               
+ [55] "file.symlink"             "find.package"            
+ [57] "format.info"              "format.pval"             
+ [59] "gc.time"                  "inverse.rle"             
+ [61] "is.array"                 "is.atomic"               
+ [63] "is.call"                  "is.character"            
+ [65] "is.complex"               "is.data.frame"           
+ [67] "is.double"                "is.element"              
+ [69] "is.environment"           "is.expression"           
+ [71] "is.factor"                "is.finite"               
+ [73] "is.function"              "is.infinite"             
+ [75] "is.integer"               "is.language"             
+ [77] "is.list"                  "is.loaded"               
+ [79] "is.logical"               "is.matrix"               
+ [81] "is.na"                    "is.name"                 
+ [83] "is.nan"                   "is.null"                 
+ [85] "is.numeric"               "is.numeric_version"      
+ [87] "is.object"                "is.ordered"              
+ [89] "is.package_version"       "is.pairlist"             
+ [91] "is.primitive"             "is.qr"                   
+ [93] "is.R"                     "is.raw"                  
+ [95] "is.recursive"             "is.single"               
+ [97] "is.symbol"                "is.table"                
+ [99] "is.unsorted"              "is.vector"               
+[101] "La.svd"                   "library.dynam"           
+[103] "library.dynam.unload"     "list.dirs"               
+[105] "list.files"               "lower.tri"               
+[107] "make.names"               "make.unique"             
+[109] "margin.table"             "mat.or.vec"              
+[111] "match.arg"                "match.call"              
+[113] "match.fun"                "max.col"                 
+[115] "mem.maxNSize"             "mem.maxVSize"            
+[117] "memory.profile"           "new.env"                 
+[119] "on.exit"                  "parent.env"              
+[121] "parent.env&lt;-"             "parent.frame"            
+[123] "path.expand"              "path.package"            
+[125] "pmax.int"                 "pmin.int"                
+[127] "pos.to.env"               "proc.time"               
+[129] "prop.table"               "qr.coef"                 
+[131] "qr.fitted"                "qr.Q"                    
+[133] "qr.qty"                   "qr.qy"                   
+[135] "qr.R"                     "qr.resid"                
+[137] "qr.solve"                 "qr.X"                    
+[139] "R.home"                   "R.Version"               
+[141] "read.dcf"                 "reg.finalizer"           
+[143] "rep.int"                  "sample.int"              
+[145] "save.image"               "seq.int"                 
+[147] "set.seed"                 "sink.number"             
+[149] "slice.index"              "sort.int"                
+[151] "sort.list"                "storage.mode"            
+[153] "storage.mode&lt;-"           "sys.call"                
+[155] "sys.calls"                "Sys.chmod"               
+[157] "Sys.Date"                 "sys.frame"               
+[159] "sys.frames"               "sys.function"            
+[161] "Sys.getenv"               "Sys.getlocale"           
+[163] "Sys.getpid"               "Sys.glob"                
+[165] "Sys.info"                 "sys.load.image"          
+[167] "Sys.localeconv"           "sys.nframe"              
+[169] "sys.on.exit"              "sys.parent"              
+[171] "sys.parents"              "Sys.readlink"            
+[173] "sys.save.image"           "Sys.setenv"              
+[175] "Sys.setFileTime"          "Sys.setLanguage"         
+[177] "Sys.setlocale"            "Sys.sleep"               
+[179] "sys.source"               "sys.status"              
+[181] "Sys.time"                 "Sys.timezone"            
+[183] "Sys.umask"                "Sys.unsetenv"            
+[185] "Sys.which"                "system.file"             
+[187] "system.time"              "unix.time"               
+[189] "upper.tri"                "which.max"               
+[191] "which.min"                "write.dcf"               
+[193] "xpdrows.data.frame"      </code></pre>
+</div>
+</div>
+<p>Here are the base R functions that have a dot in their name and are not S3 methods or generics.</p>
+<ol start="3" type="1">
+<li><p>as.data.frame.data.frame() is for using as.data.frame(df) where df is already a data frame. Ie, it tries to convert a data frame into a data frame. This confusing name can be avoided by not using dots when naming functions outside of S3 method usage.</p></li>
+<li><p>For reference:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1014</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>some_days <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2017-01-31"</span>) <span class="sc">+</span> <span class="fu">sample</span>(<span class="dv">10</span>, <span class="dv">5</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(some_days)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2017-02-06"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2017-02-06"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">unclass</span>(some_days))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17203.4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 17203</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+<p>In the first call, some_days is interpreted as a date, whereas the second call to mean treats some_days as a numeric vector due to being unclassed.</p>
+<ol start="5" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="fu">rpois</span>(<span class="dv">100</span>, <span class="dv">10</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Empirical CDF 
+Call: ecdf(rpois(100, 10))
+ x[1:18] =      2,      3,      4,  ...,     18,     19</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Empirical CDF </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call: ecdf(rpois(100, 10))</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  x[1:18] =  2,  3,  4,  ..., 2e+01, 2e+01</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (v)  
+ - attr(*, "class")= chr [1:3] "ecdf" "stepfun" "function"
+ - attr(*, "call")= language ecdf(rpois(100, 10))</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="fu">unclass</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (v)  
+ - attr(*, "call")= language ecdf(rpois(100, 10))</code></pre>
+</div>
+</div></li>
+</ol>
+<p>x is an object of type “ecdf” and “stepfun” built on top of base R type closure. It uses attributes “class”, and “call”</p>
+<ol start="6" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">rpois</span>(<span class="dv">100</span>, <span class="dv">5</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 1  2  3  4  5  6  7  8  9 10 
+ 7  5 18 14 15 15 14  4  5  3 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1  2  3  4  5  6  7  8  9 10 </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7  5 18 14 15 15 14  4  5  3</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 'table' int [1:10(1d)] 7 5 18 14 15 15 14 4 5 3
+ - attr(*, "dimnames")=List of 1
+  ..$ : chr [1:10] "1" "2" "3" "4" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="fu">unclass</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> int [1:10(1d)] 7 5 18 14 15 15 14 4 5 3
+ - attr(*, "dimnames")=List of 1
+  ..$ : chr [1:10] "1" "2" "3" "4" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(<span class="fu">unclass</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div></li>
+</ol>
+<p>x is of class “table” which is built on top of “integer” with attribute “dimnames”</p>
+<p>13.3.4 Exercises</p>
+<ol type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>new_data.frame <span class="ot">&lt;-</span> <span class="cf">function</span>(..., <span class="at">row.names =</span> <span class="cn">NULL</span>){</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> <span class="fu">list</span>(...)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#class(res) &lt;- "data.frame"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#attr(res, "row.names") &lt;- row.names</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">is.null</span>(row.names)){</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        row_n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(res[[<span class="dv">0</span>]])</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        row_n <span class="ot">&lt;-</span> row.names</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (<span class="fu">structure</span>(res, <span class="at">class =</span> <span class="st">"data.frame"</span>, <span class="at">row.names =</span> row_n))</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>new_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">integer</span>(), <span class="at">levels =</span> <span class="fu">character</span>()) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.integer</span>(x))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">is.character</span>(levels))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">structure</span>(</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    x,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> levels,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">"factor"</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>validate_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> <span class="fu">unclass</span>(x)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  levels <span class="ot">&lt;-</span> <span class="fu">attr</span>(x, <span class="st">"levels"</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">all</span>(<span class="sc">!</span><span class="fu">is.na</span>(values) <span class="sc">&amp;</span> values <span class="sc">&gt;</span> <span class="dv">0</span>)) {</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"All `x` values must be non-missing and greater than zero"</span>,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">call. =</span> <span class="cn">FALSE</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(levels) <span class="sc">&lt;</span> <span class="fu">max</span>(values)) {</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"There must be at least as many `levels` as possible values in `x`"</span>,</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">call. =</span> <span class="cn">FALSE</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>my_factor <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">character</span>(), <span class="at">levels =</span> <span class="fu">unique</span>(x)) {</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>    levels <span class="ot">&lt;-</span> <span class="fu">c</span>(levels, x[<span class="sc">!</span>(x <span class="sc">%in%</span> levels)])</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">match</span>(x, levels)</span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validate_factor</span>(<span class="fu">new_factor</span>(ind, levels))</span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="fu">my_factor</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] a a b
+Levels: a b</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] a a b</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Levels: a b</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+<p>base::factor() will write values in x not present in levels to NA.</p>
+<ol start="3" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(base<span class="sc">::</span>factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x = character(), levels, labels = levels, exclude = NA, 
+    ordered = is.ordered(x), nmax = NA) 
+{
+    if (is.null(x)) 
+        x &lt;- character()
+    nx &lt;- names(x)
+    if (missing(levels)) {
+        y &lt;- unique(x, nmax = nmax)
+        ind &lt;- order(y)
+        levels &lt;- unique(as.character(y)[ind])
+    }
+    force(ordered)
+    if (!is.character(x)) 
+        x &lt;- as.character(x)
+    levels &lt;- levels[is.na(match(levels, exclude))]
+    f &lt;- match(x, levels)
+    if (!is.null(nx)) 
+        names(f) &lt;- nx
+    if (missing(labels)) {
+        levels(f) &lt;- as.character(levels)
+    }
+    else {
+        nlab &lt;- length(labels)
+        if (nlab == length(levels)) {
+            nlevs &lt;- unique(xlevs &lt;- as.character(labels))
+            at &lt;- attributes(f)
+            at$levels &lt;- nlevs
+            f &lt;- match(xlevs, nlevs)[f]
+            attributes(f) &lt;- at
+        }
+        else if (nlab == 1L) 
+            levels(f) &lt;- paste0(labels, seq_along(levels))
+        else stop(gettextf("invalid 'labels'; length %d should be 1 or %d", 
+            nlab, length(levels)), domain = NA)
+    }
+    class(f) &lt;- c(if (ordered) "ordered", "factor")
+    f
+}
+&lt;bytecode: 0x12b8fe6d0&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+</div>
+</div></li>
+</ol>
+<p>Features present in base::factor and not included in Hadley’s factor include: protection against a user feeding a null value for x, a potential to specify the maximum amount of levels, and handling of x values not present in levels as NA.</p>
+<ol start="4" type="1">
+<li>Contrasts controls the encoding of factors when encoding non-numeric data during modeling. To be consistent with C() should be a numeric matrix, the name of a function to provide the matrix, or the function itself.</li>
+</ol>
+<div class="sourceCode" id="cb34"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="in">new_factor &lt;- function(x = integer(), levels = character(), contrast = NULL) {</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="in">  stopifnot(is.integer(x))</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="in">  stopifnot(is.character(levels))</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="in">    if (is.function(contrast)){</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="in">        contrast &lt;- contrast(x)</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="in">    } else if (is.character(contrast)){</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="in">        contrast &lt;- get(contrast)(x)</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="in">    } else if ((is.null(constrasts)) || (is.matrix(constrasts) &amp;&amp; is.numeric(constrasts)) ){</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="in">        </span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="in">    } else {</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="in">        stop("Unsuitbale contrast input")</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="in">  structure(</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="in">    x,</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="in">    levels = levels,</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="in">    class = "factor",</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="in">    contrasts = contrast</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Since roman class is stored as the integers that are to be represented, a constructor would simply check that the input is integer (or coerce double to integer) and set the class to roman. A validator would be a good idea; however, the simplicity of the class means that there is little to validate. A helper would likely just call the constructor. The heavy lifting in this type is done by the methods.</li>
+</ol>
+<p>13.4.4 Exercises</p>
+<ol type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x) 
+UseMethod("t")
+&lt;bytecode: 0x10dffc998&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(t.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x, ...) 
+UseMethod("t.test")
+&lt;bytecode: 0x10b1228d8&gt;
+&lt;environment: namespace:stats&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>utils<span class="sc">::</span><span class="fu">isS3stdGeneric</span>(t.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>t.test 
+  TRUE </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>utils<span class="sc">::</span><span class="fu">isS3method</span>(<span class="st">"t.test"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">class =</span> <span class="st">"test"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">s3_dispatch</span>(<span class="fu">t</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=&gt; t.test
+ * t.default</code></pre>
+</div>
+</div></li>
+</ol>
+<p>If you create an object with class test and call t() on it, t.test() will be called. This is confirmed by my experiment above.</p>
+<ol start="2" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">s3_methods_class</span>(<span class="st">"table"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   generic       class visible source             
+   &lt;chr&gt;         &lt;chr&gt; &lt;lgl&gt;   &lt;chr&gt;              
+ 1 [             table TRUE    base               
+ 2 aperm         table TRUE    base               
+ 3 as.data.frame table TRUE    base               
+ 4 Axis          table FALSE   registered S3method
+ 5 lines         table FALSE   registered S3method
+ 6 plot          table FALSE   registered S3method
+ 7 points        table FALSE   registered S3method
+ 8 print         table TRUE    base               
+ 9 summary       table TRUE    base               
+10 tail          table FALSE   registered S3method</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">s3_methods_class</span>(<span class="st">"ecdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  generic  class visible source             
+  &lt;chr&gt;    &lt;chr&gt; &lt;lgl&gt;   &lt;chr&gt;              
+1 plot     ecdf  TRUE    stats              
+2 print    ecdf  FALSE   registered S3method
+3 quantile ecdf  FALSE   registered S3method
+4 summary  ecdf  FALSE   registered S3method</code></pre>
+</div>
+</div></li>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'purrr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:magrittr':
+
+    set_names</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>base_gens <span class="ot">&lt;-</span> <span class="fu">Filter</span>(is_s3_generic , <span class="fu">lsf.str</span>(<span class="st">"package:base"</span>)) </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>lens <span class="ot">&lt;-</span> base_gens <span class="sc">%&gt;%</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="cf">function</span>(x) {<span class="fu">nrow</span>(<span class="fu">s3_methods_generic</span>(x))}) </span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>base_gens[lens <span class="sc">==</span> <span class="fu">max</span>(lens)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "print"</code></pre>
+</div>
+</div></li>
+</ol>
+<p>print is our answer, unsurprisingly.</p>
+<ol start="5" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">UseMethod</span>(<span class="st">"g"</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>g.default <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> x  y 
+ 1 10 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  x  y </span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+<p>When g(1) is called, 1 has type default, so UseMethod(“g”) finds g.default() to use. A special property of UseMethod is that it copies the arguments from the generic function to use as arguments to the method function. Thus, writing x &lt;- 10 has no effect as g.default uses x = 1 from the argument of the generic. Then it looks in the above environmenmt for y since y is not found in the existing env of g.default and finds y = 10, so that value is used.</p>
+<ol start="6" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ tidyr::extract()   masks magrittr::extract()
+✖ dplyr::filter()    masks stats::filter()
+✖ dplyr::lag()       masks stats::lag()
+✖ purrr::set_names() masks magrittr::set_names()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">`</span><span class="at">[</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.Primitive("[")</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(<span class="fu">formals</span>(<span class="st">`</span><span class="at">[</span><span class="st">`</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(<span class="fu">formals</span>(<span class="st">`</span><span class="at">[.data.frame</span><span class="st">`</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "x"    "i"    "j"    "drop"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">s3_methods_generic</span>(<span class="st">"["</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(visible) <span class="sc">%&gt;%</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">full_name =</span> <span class="fu">paste0</span>(<span class="st">"[."</span>, class),</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">args =</span> purrr<span class="sc">::</span><span class="fu">map</span>(full_name, formals)) <span class="sc">%&gt;%</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(full_name, args)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 17 × 2
+   full_name         args      
+   &lt;chr&gt;             &lt;list&gt;    
+ 1 [.AsIs            &lt;pairlist&gt;
+ 2 [.data.frame      &lt;pairlist&gt;
+ 3 [.Date            &lt;pairlist&gt;
+ 4 [.difftime        &lt;pairlist&gt;
+ 5 [.Dlist           &lt;pairlist&gt;
+ 6 [.DLLInfoList     &lt;pairlist&gt;
+ 7 [.factor          &lt;pairlist&gt;
+ 8 [.hexmode         &lt;pairlist&gt;
+ 9 [.listof          &lt;pairlist&gt;
+10 [.noquote         &lt;pairlist&gt;
+11 [.numeric_version &lt;pairlist&gt;
+12 [.octmode         &lt;pairlist&gt;
+13 [.POSIXct         &lt;pairlist&gt;
+14 [.POSIXlt         &lt;pairlist&gt;
+15 [.simple.list     &lt;pairlist&gt;
+16 [.table           &lt;pairlist&gt;
+17 [.warnings        &lt;pairlist&gt;</code></pre>
+</div>
+</div></li>
+</ol>
+<p>[ is a primitive function, which makes its source code difficult to view. Additionally, the generic function itself will not reveal its arguments except for a specific class. As you can see, the number of argument is different for each class.</p>
+<p>13.5.1 Exercises</p>
+<ol type="1">
+<li><p>lm() – scalar obj</p>
+<p>factor() – vector type</p>
+<p>table() - vector type</p>
+<p>as.Date() - vector type</p>
+<p>as.POSIXct - vector type</p>
+<p>ecdf() - this returns a closure so I’m not sure how it fits these categories (perhaps scalar obj?)</p>
+<p>ordered() - vector type</p>
+<p>I() - typically a data frame style object</p></li>
+<li><p>A constructor for lm will require checking the many arguments, running according to them, and calculating the resulting linear model then placing it into the final list for returning.</p></li>
+</ol>
+<p>13.6.3 Exercises</p>
+<ol type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">`</span><span class="at">[.Date</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x, ..., drop = TRUE) 
+{
+    .Date(NextMethod("["), oldClass(x))
+}
+&lt;bytecode: 0x10c6fb7b0&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">`</span><span class="at">.Date</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (xx, cl = "Date") 
+`class&lt;-`(xx, cl)
+&lt;bytecode: 0x10b758f78&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+</div>
+</div></li>
+</ol>
+<p>Based on the [.Date function and the .Date constructor, it appears that the class will be restored for any objects with a class other than Date (i.e.&nbsp;Date subclasses). However, it is possible that other metadata may be lost.</p>
+<ol start="2" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">nrow</span>(<span class="fu">s3_methods_class</span>(<span class="st">"POSIXct"</span>) ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">nrow</span>(<span class="fu">s3_methods_class</span>(<span class="st">"POSIXlt"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(<span class="fu">s3_methods_class</span>(<span class="st">"POSIXt"</span>)<span class="sc">$</span>generic, </span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">union</span>(<span class="fu">s3_methods_class</span>(<span class="st">"POSIXct"</span>)<span class="sc">$</span>generic, </span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">s3_methods_class</span>(<span class="st">"POSIXlt"</span>)<span class="sc">$</span>generic))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "-"             "!="            "+"             "&lt;"            
+ [5] "&lt;="            "=="            "&gt;"             "&gt;="           
+ [9] "all.equal"     "as.character"  "Axis"          "cut"          
+[13] "diff"          "hist"          "is.numeric"    "julian"       
+[17] "Math"          "months"        "Ops"           "output_column"
+[21] "pretty"        "quantile"      "quarters"      "round"        
+[25] "scale_type"    "seq"           "str"           "trunc"        
+[29] "tz"            "update"        "weekdays"     </code></pre>
+</div>
+</div></li>
+</ol>
+<p>There are 21 generic methods that both POSIXlt and POSIXct inherit from POSIXt, thus ensuring equivalent behavior. POSIXct has 18 of its own methods, and POSIXlt has 33 of its own methods, which will likely have different functionality. It is reasonable to assume that functions that are in the subclass method have different funcitonality since, if otherwise, the developer would simply forgo creating one and let R find the superclass method to use.</p>
+<ol start="3" type="1">
+<li>I expect this code to return “a2”. I’ll elaborate the steps to reach this conclusion: the object initially has class c(“b”, “a2”) so the generic2.b() will be called. Like UseMethod(), NextMethod() directly uses the arguments to generic2.b(), thus meaning that changing the class of x to “a1” has no effect. Hence, generic2.a2() is called, whose return value “a2” percolates up through the function chain to be returned.</li>
+</ol>
+<div class="sourceCode" id="cb77"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="in">generic2 &lt;- function(x) UseMethod("generic2")</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="in">generic2.a1 &lt;- function(x) "a1"</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="in">generic2.a2 &lt;- function(x) "a2"</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="in">generic2.b &lt;- function(x) {</span></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="in">  class(x) &lt;- "a1"</span></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="in">  NextMethod()</span></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a><span class="in">generic2(structure(list(), class = c("b", "a2")))</span></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Nice!</p>
+<p>13.7.5 Exercises</p>
+<ol type="1">
+<li><p>For reference:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>length.integer <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="dv">10</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "integer"</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">s3_class</span>(x1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer" "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">s3_dispatch</span>(<span class="fu">length</span>(x1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> * length.integer
+   length.numeric
+   length.default
+=&gt; length (internal)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  * length.integer</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    length.numeric</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    length.default</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; =&gt; length (internal)</span></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">structure</span>(x1, <span class="at">class =</span> <span class="st">"integer"</span>)</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "integer"</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">s3_class</span>(x2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">s3_dispatch</span>(<span class="fu">length</span>(x2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=&gt; length.integer
+   length.default
+ * length (internal)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; =&gt; length.integer</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    length.default</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  * length (internal)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+<p>While class(x1) returns “integer”, we see that the implicit class it has is “integer” inheriting from “numeric”. As mentioned in the book, R treats these vectors differently, so thus it does it typical sequence of function calls on x1, ultimately using length (internal). Note that length.integer is found but not called due to these rules. However, the class of x2 is manually overridden to “integer” without numeric inheritance. Thus, R follows the S3 function calling convention and calls length.integer for x2 since we made that function.</p>
+<ol start="2" type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">s3_methods_generic</span>(<span class="st">"Math"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+  generic class      visible source             
+  &lt;chr&gt;   &lt;chr&gt;      &lt;lgl&gt;   &lt;chr&gt;              
+1 Math    data.frame TRUE    base               
+2 Math    Date       TRUE    base               
+3 Math    difftime   TRUE    base               
+4 Math    factor     TRUE    base               
+5 Math    POSIXt     TRUE    base               
+6 Math    quosure    FALSE   registered S3method
+7 Math    vctrs_sclr FALSE   registered S3method
+8 Math    vctrs_vctr FALSE   registered S3method</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Math.difftime)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x, ...) 
+{
+    switch(.Generic, abs = , sign = , floor = , ceiling = , trunc = , 
+        round = , signif = {
+            units &lt;- attr(x, "units")
+            .difftime(NextMethod(), units)
+        }, stop(gettextf("'%s' not defined for \"difftime\" objects", 
+            .Generic), domain = NA))
+}
+&lt;bytecode: 0x10cb413e0&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Math)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>new("groupGenericFunction", .Data = function (x) 
+standardGeneric("Math"), groupMembers = list("abs", "sign", "sqrt", 
+    "ceiling", "floor", "trunc", "cummax", "cummin", "cumprod", 
+    "cumsum", "exp", "expm1", "log", "log10", "log2", "log1p", 
+    "cos", "cosh", "sin", "sinh", "tan", "tanh", "acos", "acosh", 
+    "asin", "asinh", "atan", "atanh", "cospi", "sinpi", "tanpi", 
+    "gamma", "lgamma", "digamma", "trigamma"), generic = "Math", 
+    package = "base", group = list(), valueClass = character(0), 
+    signature = "x", default = NULL, skeleton = (function (x) 
+    stop(gettextf("invalid call in method dispatch to '%s' (no default method)", 
+        "Math"), domain = NA))(x))
+&lt;bytecode: 0x10b4cada0&gt;
+&lt;environment: 0x11a908bf8&gt;
+attr(,"generic")
+[1] "Math"
+attr(,"generic")attr(,"package")
+[1] "base"
+attr(,"package")
+[1] "base"
+attr(,"group")
+list()
+attr(,"valueClass")
+character(0)
+attr(,"signature")
+[1] "x"
+attr(,"default")
+`\001NULL\001`
+attr(,"skeleton")
+(function (x) 
+stop(gettextf("invalid call in method dispatch to '%s' (no default method)", 
+    "Math"), domain = NA))(x)
+attr(,"groupMembers")
+attr(,"groupMembers")[[1]]
+[1] "abs"
+
+attr(,"groupMembers")[[2]]
+[1] "sign"
+
+attr(,"groupMembers")[[3]]
+[1] "sqrt"
+
+attr(,"groupMembers")[[4]]
+[1] "ceiling"
+
+attr(,"groupMembers")[[5]]
+[1] "floor"
+
+attr(,"groupMembers")[[6]]
+[1] "trunc"
+
+attr(,"groupMembers")[[7]]
+[1] "cummax"
+
+attr(,"groupMembers")[[8]]
+[1] "cummin"
+
+attr(,"groupMembers")[[9]]
+[1] "cumprod"
+
+attr(,"groupMembers")[[10]]
+[1] "cumsum"
+
+attr(,"groupMembers")[[11]]
+[1] "exp"
+
+attr(,"groupMembers")[[12]]
+[1] "expm1"
+
+attr(,"groupMembers")[[13]]
+[1] "log"
+
+attr(,"groupMembers")[[14]]
+[1] "log10"
+
+attr(,"groupMembers")[[15]]
+[1] "log2"
+
+attr(,"groupMembers")[[16]]
+[1] "log1p"
+
+attr(,"groupMembers")[[17]]
+[1] "cos"
+
+attr(,"groupMembers")[[18]]
+[1] "cosh"
+
+attr(,"groupMembers")[[19]]
+[1] "sin"
+
+attr(,"groupMembers")[[20]]
+[1] "sinh"
+
+attr(,"groupMembers")[[21]]
+[1] "tan"
+
+attr(,"groupMembers")[[22]]
+[1] "tanh"
+
+attr(,"groupMembers")[[23]]
+[1] "acos"
+
+attr(,"groupMembers")[[24]]
+[1] "acosh"
+
+attr(,"groupMembers")[[25]]
+[1] "asin"
+
+attr(,"groupMembers")[[26]]
+[1] "asinh"
+
+attr(,"groupMembers")[[27]]
+[1] "atan"
+
+attr(,"groupMembers")[[28]]
+[1] "atanh"
+
+attr(,"groupMembers")[[29]]
+[1] "cospi"
+
+attr(,"groupMembers")[[30]]
+[1] "sinpi"
+
+attr(,"groupMembers")[[31]]
+[1] "tanpi"
+
+attr(,"groupMembers")[[32]]
+[1] "gamma"
+
+attr(,"groupMembers")[[33]]
+[1] "lgamma"
+
+attr(,"groupMembers")[[34]]
+[1] "digamma"
+
+attr(,"groupMembers")[[35]]
+[1] "trigamma"
+
+attr(,"class")
+[1] "groupGenericFunction"
+attr(,"class")attr(,"package")
+[1] "methods"</code></pre>
+</div>
+</div></li>
+</ol>
+<p>There are 8 classes with a Math group generic in base R, including data.frame, Date, difftime, factor, POSIXt, quosure, vctrs_sclr, vctrs_vctr. The Math generic is a collection of many functions as a group generic. To see, I looked at the code for one of the methods, Math.difftime, which is composed primarily by a large switch function to facilitate the many different operations that may be requested.</p>
+<ol start="3" type="1">
+<li>Math.difftime has additional complication due to having to deal with inheritance of the difftime class (we can see that Math.difftime calls nextMethod()) and since some operations are not defined on difftime objects. For example, it does not make sense to perform trigonometric operations on a difftime object.</li>
+</ol>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
